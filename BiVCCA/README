@@ -1,0 +1,9 @@
+You can use it on the MNIST dataset which can be generated using the MATLAB script createMNIST.m (download mnist_all.mat from Sam Roweis webpage). And then run the demo_vcca_mnist.py python code with
+
+Z=30
+dropprob=0.2
+H1=30
+H2=30
+for 300 epochs:
+
+python demo_vcca_mnist.py --Z 30 --H1 30 --H2 30 --dropprob 0.2 
