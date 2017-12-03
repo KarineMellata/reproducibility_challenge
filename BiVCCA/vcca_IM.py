@@ -118,20 +118,20 @@ class VCCA(object):
         
         
         # Draw L samples of z.
-        z_epsshape=tf.mul(tf.shape(self.z_mean), [L,1])
+        z_epsshape=tf.multiply(tf.shape(self.z_mean), [L,1])
         eps=tf.random_normal(z_epsshape, 0, 1, dtype=tf.float32)
-        self.z1=tf.add( tf.tile(self.z_mean, [L,1]), tf.mul( tf.tile(tf.exp(0.5 * self.z_log_sigma_sq), [L,1]), eps))
+        self.z1=tf.add( tf.tile(self.z_mean, [L,1]), tf.multiply( tf.tile(tf.exp(0.5 * self.z_log_sigma_sq), [L,1]), eps))
         
         # Draw L samples of h1.
         if n_h1>0:
-            h1_epsshape=tf.mul(tf.shape(self.h1_mean), [L,1])
+            h1_epsshape=tf.multiply(tf.shape(self.h1_mean), [L,1])
             eps=tf.random_normal(h1_epsshape, 0, 1, dtype=tf.float32)
-            self.h1=tf.add( tf.tile(self.h1_mean, [L,1]), tf.mul( tf.tile(tf.exp(0.5 * self.h1_log_sigma_sq), [L,1]), eps))
+            self.h1=tf.add( tf.tile(self.h1_mean, [L,1]), tf.multiply( tf.tile(tf.exp(0.5 * self.h1_log_sigma_sq), [L,1]), eps))
         
         # Use the generator network to reconstruct view 1.
         print("Building view 1 reconstruction network H1 ...")
         if n_h1>0:
-            activation=tf.concat(1, [self.z1, self.h1])
+            activation=tf.concat([self.z1, self.h1],1)
             width=n_z + n_h1
         else:
             activation=self.z1
@@ -156,18 +156,18 @@ class VCCA(object):
         
         # Draw L samples of z.
         eps=tf.random_normal(z_epsshape, 0, 1, dtype=tf.float32)
-        self.z2=tf.add( tf.tile(self.z_mean, [L,1]), tf.mul( tf.tile(tf.exp(0.5 * self.z_log_sigma_sq), [L,1]), eps))
+        self.z2=tf.add( tf.tile(self.z_mean, [L,1]), tf.multiply( tf.tile(tf.exp(0.5 * self.z_log_sigma_sq), [L,1]), eps))
 
         # Draw L samples of h2.
         if n_h2>0:
-            h2_epsshape=tf.mul(tf.shape(self.h2_mean), [L,1])
+            h2_epsshape=tf.multiply(tf.shape(self.h2_mean), [L,1])
             eps=tf.random_normal(h2_epsshape, 0, 1, dtype=tf.float32)
-            self.h2=tf.add( tf.tile(self.h2_mean, [L,1]), tf.mul( tf.tile(tf.exp(0.5 * self.h2_log_sigma_sq), [L,1]), eps))
+            self.h2=tf.add( tf.tile(self.h2_mean, [L,1]), tf.multiply( tf.tile(tf.exp(0.5 * self.h2_log_sigma_sq), [L,1]), eps))
 
         # Use the generator network to reconstruct view 2.
         print("Building view 2 reconstruction network H2 ...")
         if n_h2>0:
-            activation=tf.concat(1, [self.z2, self.h2])
+            activation=tf.concat( [self.z2, self.h2],1)
             width=n_z + n_h2
         else:
             activation=self.z2
@@ -405,7 +405,7 @@ def train(model, trainData, tuneData, saver, checkpoint, batch_size=100, max_epo
                 epoch=model.sess.run(model.epoch)
                 TUNECOST=model.sess.run(model.tunecost)
                 lr=lr*0.5
-		model.assign_lr(lr)
+                model.assign_lr(lr)
             else:
                 model.assign_epoch(epoch)
                 model.assign_tunecost(TUNECOST)
@@ -666,3 +666,4 @@ NEWLABEL=np.array( data['NEWLABEL'], dtype=np.float32)
 sio.savemat('vccarecog.mat', {'NEWMFCC':NEWMFCC, 'NEWLABEL':NEWLABEL})
 
 """
+

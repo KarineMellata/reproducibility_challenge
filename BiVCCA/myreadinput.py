@@ -97,7 +97,7 @@ class DataSet(object):
 
 def read_mnist():
 
-    data=sio.loadmat('/share/data/speech-multiview/wwang5/cca/VCCA/MNIST.mat')
+    data=sio.loadmat('/home/ruichao/project3/ruichaozhang/vcca_tf0.9_code/MNIST.mat')
     
     train=DataSet(data['X1'],data['X2'],data['trainLabel'])
     
